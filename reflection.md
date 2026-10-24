@@ -11,7 +11,8 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - What did the game look like the first time you ran it?
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
-
+- incorrect hints
+- incorrect targets
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.
@@ -83,6 +84,8 @@ The current result is 8 passed, 3 failed. The 3 failures are the starter tests (
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 
+Every time you click a button or type in a box, Streamlit runs your whole Python script again from top to bottom. That's a "rerun". Normal variables get wiped out and recreated on each rerun, so anything the game needs to remember between clicks, like the secret number, attempts, score and whether you've won, has to live in `st.session_state`. That's a dictionary Streamlit keeps alive across reruns. The restart bug was a state bug: New Game reset some values in `st.session_state` but never set `status` back to "playing", so on the next rerun the script saw "won" or "lost" and stopped. Reruns also explain why the "Attempts left" box lags one guess behind: the box is drawn near the top of the script, before the code further down that handles your guess has updated the count.
+
 ---
 
 ## 5. Looking ahead: your developer habits
@@ -91,3 +94,9 @@ The current result is 8 passed, 3 failed. The 3 failures are the starter tests (
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+**Habit to reuse:** For every bug, write one small test that targets exactly that bug, and also check it in the running game. Writing the test first made me pin down what "fixed" meant. For example, `check_guess(100, "50")` had to say "Too High", which caught the second cause of the hint bug that I wouldn't have found by fixing only the swapped messages. I also want to keep checking which Python and venv I'm running before I trust any error, since that was the real cause of my import problem.
+
+**What I'd do differently:** I'd give the AI my exact requirements and setup up front, instead of correcting it after it acted. It added a repeated-guess block I didn't want, kept accepting decimals until I said only whole numbers count, and explained my import error as a path problem because it didn't know I wasn't in my venv. Telling it those rules and my environment at the start, and asking it to explain its plan before editing, would have saved a few rounds of changes.
+
+**How this changed my view of AI code:** AI-generated code can look clean and "production-ready" while hiding bugs like swapped messages or a secret quietly turned into a string, so I now treat it as a draft I have to test, not a finished answer. The AI was most useful when I could check its work with tests and by playing the game, not when I just took its word for it.

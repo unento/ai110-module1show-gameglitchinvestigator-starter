@@ -1,0 +1,21 @@
+[33mcommit 13d0b652df0326e9ad2074bfe8ba6aee50e68ccb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: unento <jonathansvaldez@gmail.com>
+Date:   Fri Oct 23 21:48:51 2026 -0400
+
+    Fix hint, scoring, input and restart bugs; move logic to logic_utils
+    
+    - Fix backwards hints: swap the Too High/Too Low messages and compare
+      guess and secret as ints (app.py turned the secret into a string on
+      even attempts, so "100" < "50")
+    - Move check_guess, parse_guess, get_range_for_difficulty and
+      update_score from app.py into logic_utils.py
+    - Reject non-integer and out-of-range guesses without using an attempt
+    - Make Hard (1-200) wider than Normal (1-100)
+    - Scoring: first-guess win earns 100, every wrong guess costs 5, and the
+      score can't go below 0
+    - Fix New Game: reset_game() resets secret, attempts, score, status and
+      history; also start a new game when the difficulty changes
+    - Show the difficulty's real range in the prompt
+    - Add regression tests for each fix and pytest.ini so tests can import
+      logic_utils from the repo root
+    - Fill in reflection sections 2 and 3

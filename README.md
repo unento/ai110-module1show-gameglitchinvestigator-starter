@@ -31,13 +31,18 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📸 Demo Walkthrough
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
+A sample game on **Normal** difficulty (range 1–100, 8 attempts). The secret number for this game is **63**.
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. User starts the app with `python -m streamlit run app.py`. The game shows "Guess a number between 1 and 100. Attempts left: 8". Score is 0.
+2. User enters `abc` → the game shows "That is not a whole number." No attempt is used.
+3. User enters a guess of 40 → "📈 Go HIGHER!" (Too Low). Attempts used: 1. The score stays at 0, because a wrong guess costs 5 points but the score can't drop below 0.
+4. User enters a guess of 70 → "📉 Go LOWER!" (Too High). Attempts used: 2. Score: 0.
+5. User enters 150 → "Guess must be between 1 and 100." No attempt is used.
+6. User enters a guess of 55 → "📈 Go HIGHER!" (Too Low). Attempts used: 3. Score: 0.
+7. User enters a guess of 63 → "🎉 Correct!", balloons appear, and the game shows "You won! The secret was 63. Final score: 70". A first-guess win is worth 100 points, minus 10 for each extra guess, so a win on attempt 4 earns 70.
+8. User clicks Submit again → "You already won. Start a new game to play again." The game ignores further guesses.
+9. User clicks **New Game 🔁** → a new secret is picked, and attempts, score and guess history all reset. No page refresh is needed.
+10. User switches the difficulty to **Hard** → a new game starts automatically with the range 1–200 and 5 attempts.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
